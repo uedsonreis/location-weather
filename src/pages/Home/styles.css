@@ -1,0 +1,13 @@
+.container {
+    width: calc(100% - 80px);
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.header {
+    text-align: center;
+}
+
+.info-cell {
+    margin-bottom: 10px;
+}

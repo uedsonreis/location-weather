@@ -1,3 +1,7 @@
+.load-message {
+    margin: 30px 40px 40px 40px;
+}
+
 .container {
     width: calc(100% - 80px);
     padding-left: 40px;

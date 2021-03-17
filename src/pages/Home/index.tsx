@@ -12,14 +12,7 @@ function Home() {
     const [ longitude, setLongitude ] = React.useState<string>("-38.44713680");
     const [ data, setData ] = React.useState<WeatherResponse>();
     
-    React.useEffect(() => {
-        if (latitude && longitude) {
-            weatherService.getWeatherData(latitude, longitude).then(response => {
-                console.log('Data: ', data);
-                setData(response);
-            });
-        }
-    }, [latitude, longitude]);
+    React.useEffect(() => updateData(), [latitude, longitude]);
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -29,6 +22,15 @@ function Home() {
         });
     } else {
         return <div>Your browser does not support it.</div>
+    }
+
+    function updateData() {
+        if (latitude && longitude) {
+            weatherService.getWeatherData(latitude, longitude).then(response => {
+                console.log('Data: ', data);
+                setData(response);
+            });
+        }
     }
 
     if (!data) return (
@@ -59,22 +61,24 @@ function Home() {
             )) }
 
             <div className="info-cell">
-                <span>Temperatura: {main.temp} °C</span> <br />
+                <span>{main.temp} °C de Temperatura</span> <br />
             </div>
             
             <div className="info-cell">
                 <span>
-                    Sensação térmica: {main.feels_like} °C
+                    {main.feels_like} °C de sensação térmica
                 </span>
             </div>
 
             <div className="info-cell">
-                <span>Humidade: {main.humidity} %</span>
+                <span>Humidade relativa do ar {main.humidity}%</span>
             </div>
 
             <div className="info-cell">
-                <span>Velocidade do vento: {utils.convertMphToKmh(wind.speed)} km/h</span>
+                <span>Velocidade do vento {utils.convertMphToKmh(wind.speed)} km/h</span>
             </div>
+
+            <button className="btn-update" onClick={updateData}>Atualizar</button>
         </div>
     );
 }
